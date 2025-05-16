@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -7,8 +8,12 @@ public class PlayerController : MonoBehaviour
     public int playerIndex;
     public Vector2Int gridPosition;
 
-    public void MoveTo(Vector2Int newPosition)
+    private bool isMoving = false;
+
+    public void MoveTo(Vector2Int newPosition, System.Action onMoveComplete = null)
     {
+        if (isMoving) return;
+
         gridPosition = newPosition;
 
         float spacing = config != null ? config.tileSpacing : 0.0f;
@@ -17,11 +22,35 @@ public class PlayerController : MonoBehaviour
 
         float yOffset = tileHeight / 2f + pawnHeight / 2f;
 
-        transform.position = new Vector3(
+        Vector3 targetPosition = new Vector3(
             newPosition.x * spacing, 
             yOffset, 
             newPosition.y * spacing
         );
+
+        StopAllCoroutines();
+        StartCoroutine(MoveSmoothly(targetPosition, onMoveComplete));
+    }
+
+    private IEnumerator MoveSmoothly(Vector3 targetPosition, System.Action onComplete)
+    {
+        isMoving = true;
+
+        float duration = 0.25f;
+        float elapsedTime = 0f;
+        Vector3 startPosition = transform.position;
+
+        while (elapsedTime < duration)
+        {
+            transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = targetPosition;
+        isMoving = false;
+
+        onComplete?.Invoke();
     }
 
     public void SetColor(Color color)
