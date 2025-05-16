@@ -12,6 +12,7 @@ public class Tile : MonoBehaviour
     private void Start()
     {
         renderer = GetComponent<Renderer>();
+        originalColor = renderer.material.color;
 
         string[] parts = name.Replace("Tile_", "").Split('_');
         int x = int.Parse(parts[0]);
