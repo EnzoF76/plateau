@@ -28,3 +28,5 @@ sysinfo.txt
 # Système
 .DS_Store
 Thumbs.db
+
+.vs/
