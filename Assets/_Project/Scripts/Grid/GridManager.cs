@@ -8,9 +8,6 @@ public class GridManager : MonoBehaviour
     // Prefab utilisé pour chaquetuile
     public GameObject tilePrefab;
 
-    public int width = 9;
-    public int height = 9;
-
     void Start()
     {
         GenerateGrid();
@@ -20,9 +17,9 @@ public class GridManager : MonoBehaviour
 
     void GenerateGrid()
     {
-        for (int i = 0; i < width; i++)
+        for (int i = 0; i < config.gridWidth; i++)
         {
-            for (int j = 0; j < height; j++)
+            for (int j = 0; j < config.gridHeight; j++)
             {
                 // Position 3D de la tuile
                 Vector3 position = new Vector3(i * config.tileSpacing, 0, j * config.tileSpacing);
@@ -38,8 +35,8 @@ public class GridManager : MonoBehaviour
 
     void CenterCamera()
     {
-        float centerX = (width - 1) * config.tileSpacing / 2f;
-        float centerZ = (height - 1) * config.tileSpacing / 2f;
+        float centerX = (config.gridWidth - 1) * config.tileSpacing / 2f;
+        float centerZ = (config.gridHeight - 1) * config.tileSpacing / 2f;
         
         Vector3 centerPoint = new Vector3(centerX, 0, centerZ);
 
@@ -55,7 +52,7 @@ public class GridManager : MonoBehaviour
         Camera.main.transform.position = centerPoint + cameraOffset;
         Camera.main.transform.LookAt(centerPoint);
         Camera.main.orthographic = true;
-        Camera.main.orthographicSize = Mathf.Max(width, height) * config.tileSpacing * 0.7f;
+        Camera.main.orthographicSize = Mathf.Max(config.gridWidth, config.gridHeight) * config.tileSpacing * 0.7f;
     }
 
     void ColorCorners()
@@ -63,9 +60,9 @@ public class GridManager : MonoBehaviour
         Dictionary<Vector2Int, Color> cornerColors = new Dictionary<Vector2Int, Color>
         {
             { new Vector2Int(0, 0), new Color32(255, 173, 175, 255) },
-            { new Vector2Int(width - 1, 0), new Color32(203, 255, 193, 255) },
-            { new Vector2Int(0, height - 1), new Color32(161, 195, 255, 255) },
-            { new Vector2Int(width - 1, height - 1), new Color32(253, 255, 182, 255) }
+            { new Vector2Int(config.gridWidth - 1, 0), new Color32(203, 255, 193, 255) },
+            { new Vector2Int(0, config.gridHeight - 1), new Color32(161, 195, 255, 255) },
+            { new Vector2Int(config.gridWidth - 1, config.gridHeight - 1), new Color32(253, 255, 182, 255) }
         };
         
         foreach (Transform child in transform)

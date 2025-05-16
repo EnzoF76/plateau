@@ -9,11 +9,19 @@ public class PlayerController : MonoBehaviour
 
     public void MoveTo(Vector2Int newPosition)
     {
-        Debug.Log($"Déplacement joueur {playerIndex} vers {newPosition}");
-
         gridPosition = newPosition;
-        float spacing = config != null ? config.tileSpacing : 2.0f;
-        transform.position = new Vector3(newPosition.x * spacing, 0.5f, newPosition.y * spacing);
+
+        float spacing = config != null ? config.tileSpacing : 0.0f;
+        float tileHeight = config != null ? config.tileHeight : 0.0f;
+        float pawnHeight = config != null ? config.playerHeight : 0.0f;
+
+        float yOffset = tileHeight / 2f + pawnHeight / 2f;
+
+        transform.position = new Vector3(
+            newPosition.x * spacing, 
+            yOffset, 
+            newPosition.y * spacing
+        );
     }
 
     public void SetColor(Color color)
