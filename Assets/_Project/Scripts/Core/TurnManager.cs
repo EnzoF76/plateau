@@ -17,6 +17,8 @@ public class TurnManager : MonoBehaviour
     {
         players = playerList;
         currentPlayerIndex = 0;
+
+        CurrentPlayer.SetActiveHighlight(true);
     }
 
     public PlayerController CurrentPlayer => players[currentPlayerIndex];
