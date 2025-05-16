@@ -37,9 +37,9 @@ public class TurnManager : MonoBehaviour
     {
         PlayerController player = CurrentPlayer;
 
-        //if (Vector2Int.Distance(player.gridPosition, targetPosition) <= 1.1f)
-        //{
+        if (Vector2Int.Distance(player.gridPosition, targetPosition) <= 1.1f)
+        {
             player.MoveTo(targetPosition, EndTurn);
-        //}
+        }
     }
 }
