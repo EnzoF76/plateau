@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -6,6 +7,22 @@ public class PlayerController : MonoBehaviour
 
     public int playerIndex;
     public Vector2Int gridPosition;
+
+    public TMP_Text nameText;
+
+    private Renderer renderer;
+    private Material instanceMaterial;
+
+    public Color playerColor;
+    public Color activeGlowColor = Color.white;
+
+    void Start()
+    {
+        if (nameText != null)
+        {
+            nameText.text = $"Joueur {playerIndex + 1}";
+        }
+    }
 
     public void MoveTo(Vector2Int newPosition)
     {
@@ -26,6 +43,28 @@ public class PlayerController : MonoBehaviour
 
     public void SetColor(Color color)
     {
-        GetComponent<Renderer>().material.color = color;
+        renderer = GetComponent<Renderer>();
+
+        instanceMaterial = renderer.material;
+        instanceMaterial.color = color;
+        playerColor = color;
+
+        renderer.material = instanceMaterial;
+    }
+
+    public void SetActiveHighlight(bool active) 
+    {
+        if (instanceMaterial != null)
+        {
+            if (active)
+            {
+                instanceMaterial.EnableKeyword("_EMISSION");
+                instanceMaterial.SetColor("_EmissionColor", playerColor * 3f);
+            }
+            else
+            {
+                instanceMaterial.DisableKeyword("_EMISSION");
+            }
+        }
     }
 }

@@ -23,8 +23,12 @@ public class TurnManager : MonoBehaviour
 
     public void EndTurn()
     {
+        foreach (var player in players)
+            player.SetActiveHighlight(false);
+
         currentPlayerIndex = (currentPlayerIndex + 1) % players.Count;
-        Debug.Log($"Tour du joueur {currentPlayerIndex + 1}");
+
+        CurrentPlayer.SetActiveHighlight(true);
     }
 
     public void TryMoveTo(Vector2Int targetPosition) 

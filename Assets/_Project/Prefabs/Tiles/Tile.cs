@@ -22,7 +22,6 @@ public class Tile : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log("Clicked on tile at : " + gridPos);
         TurnManager.Instance.TryMoveTo(gridPos);
     }
 
