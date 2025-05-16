@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
@@ -13,6 +14,7 @@ public class GridManager : MonoBehaviour
     {
         GenerateGrid();
         CenterCamera();
+        ColorCorners();
     }
 
     void GenerateGrid()
@@ -53,5 +55,33 @@ public class GridManager : MonoBehaviour
         Camera.main.transform.LookAt(centerPoint);
         Camera.main.orthographic = true;
         Camera.main.orthographicSize = Mathf.Max(width, height) * tileSpacing * 0.7f;
+    }
+
+    void ColorCorners()
+    {
+        Dictionary<Vector2Int, Color> cornerColors = new Dictionary<Vector2Int, Color>
+        {
+            { new Vector2Int(0, 0), new Color32(255, 173, 175, 255) },
+            { new Vector2Int(width - 1, 0), new Color32(203, 255, 193, 255) },
+            { new Vector2Int(0, height - 1), new Color32(161, 195, 255, 255) },
+            { new Vector2Int(width - 1, height - 1), new Color32(253, 255, 182, 255) }
+        };
+        
+        foreach (Transform child in transform)
+        {
+            string[] parts = child.name.Replace("Tile_", "").Split("_");
+            int x = int.Parse(parts[0]);
+            int y = int.Parse(parts[1]);
+            Vector2Int position = new Vector2Int(x, y);
+
+            if (cornerColors.ContainsKey(position))
+            {
+                Renderer renderer = child.GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    renderer.material.color = cornerColors[position];
+                }
+            }
+        }
     }
 }
