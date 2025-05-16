@@ -1,0 +1,40 @@
+using UnityEngine;
+using System.Collections.Generic;
+
+public class TurnManager : MonoBehaviour
+{
+    public static TurnManager Instance { get; private set; }
+
+    public List<PlayerController> players;
+    private int currentPlayerIndex = 0;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    public void Initialize(List<PlayerController> playerList)
+    {
+        players = playerList;
+        currentPlayerIndex = 0;
+    }
+
+    public PlayerController CurrentPlayer => players[currentPlayerIndex];
+
+    public void EndTurn()
+    {
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.Count;
+        Debug.Log($"Tour du joueur {currentPlayerIndex + 1}");
+    }
+
+    public void TryMoveTo(Vector2Int targetPosition) 
+    {
+        PlayerController player = CurrentPlayer;
+
+        //if (Vector2Int.Distance(player.gridPosition, targetPosition) <= 1.1f)
+        //{
+            player.MoveTo(targetPosition);
+            EndTurn();
+        //}
+    }
+}
