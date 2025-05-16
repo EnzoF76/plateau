@@ -19,7 +19,7 @@ public class Tile : MonoBehaviour
         gridPos = new Vector2Int(x, y);
     }
 
-    private void OnMouseDown(
+    private void OnMouseDown()
     {
         Debug.Log("Clicked on tile at : " + gridPos);
         TurnManager.Instance.TryMoveTo(gridPos);
