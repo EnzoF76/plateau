@@ -409,5 +409,5 @@ MonoBehaviour:
   playerIndex: 0
   gridPosition: {x: 0, y: 0}
   nameText: {fileID: 4678531332889435008}
-  baseMaterial: {fileID: 2100000, guid: d0d3960569a982d4e8dccc0e25217c73, type: 2}
-  activeMaterial: {fileID: 2100000, guid: f9b625d1b1e40c440b5b1da09d3cb09e, type: 2}
+  playerColor: {r: 0, g: 0, b: 0, a: 0}
+  activeGlowColor: {r: 1, g: 1, b: 1, a: 1}

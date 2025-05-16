@@ -7,13 +7,20 @@ public class Tile : MonoBehaviour
 
     private Vector2Int gridPos;
     private Color originalColor;
+
     public Color hoverColor = new Color32(235, 204, 255, 255);
 
-    private void Start()
+    private bool isHighlighted;
+    public Color highlightColor = new Color32(188, 226, 185, 255);
+
+    private void Awake()
     {
         renderer = GetComponent<Renderer>();
         originalColor = renderer.material.color;
+    }
 
+    private void Start()
+    {
         string[] parts = name.Replace("Tile_", "").Split('_');
         int x = int.Parse(parts[0]);
         int y = int.Parse(parts[1]);
@@ -32,6 +39,15 @@ public class Tile : MonoBehaviour
 
     private void OnMouseExit()
     {
-        renderer.material.color = originalColor;
+        if (isHighlighted)
+            renderer.material.color = highlightColor;
+        else 
+            renderer.material.color = originalColor;
+    }
+
+    public void Highlight(bool enable)
+    {
+        isHighlighted = enable;
+        renderer.material.color = enable ? highlightColor : originalColor;
     }
 }

@@ -31,6 +31,8 @@ public class TurnManager : MonoBehaviour
         currentPlayerIndex = (currentPlayerIndex + 1) % players.Count;
 
         CurrentPlayer.SetActiveHighlight(true);
+
+        GridManager.Instance.HighlightTilesForPlayer(CurrentPlayer.gridPosition);
     }
 
     public void TryMoveTo(Vector2Int targetPosition) 

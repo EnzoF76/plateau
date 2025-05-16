@@ -1,18 +1,28 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class GridManager : MonoBehaviour
 {
+    public static GridManager Instance { get; private set; }
+
+    private Dictionary<Vector2Int, Tile> tiles = new Dictionary<Vector2Int, Tile>();
+
+    public GameObject tilePrefab; // Prefab utilisé pour chaque tuile
     public GameConfig config;
 
-    // Prefab utilisé pour chaquetuile
-    public GameObject tilePrefab;
+    public event System.Action OnGridGenerated;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
         GenerateGrid();
         CenterCamera();
-        ColorCorners();
+        //ColorCorners();
     }
 
     void GenerateGrid()
@@ -25,12 +35,18 @@ public class GridManager : MonoBehaviour
                 Vector3 position = new Vector3(i * config.tileSpacing, 0, j * config.tileSpacing);
 
                 // Instanciation de la tuile à cette position (Quaternion=rotation)
-                GameObject tile = Instantiate(tilePrefab, position, Quaternion.identity, transform);
+                GameObject tileObj = Instantiate(tilePrefab, position, Quaternion.identity, transform);
 
                 // Nom de la tuile pour faciliter le débug
-                tile.name = $"Tile_{i}_{j}";
+                tileObj.name = $"Tile_{i}_{j}";
+
+                Tile tile = tileObj.GetComponent<Tile>();
+                tiles[new Vector2Int(i, j)] = tile;
             }
         }
+
+        // Appel de l'événement après la génération de la grille
+        OnGridGenerated?.Invoke();
     }
 
     void CenterCamera()
@@ -80,6 +96,36 @@ public class GridManager : MonoBehaviour
                     renderer.material.color = cornerColors[position];
                 }
             }
+        }
+    }
+
+    public void HighlightTilesForPlayer(Vector2Int origin)
+    {
+        ClearHighlights();
+
+        Vector2Int[] directions =
+        {
+            Vector2Int.up,
+            Vector2Int.down,
+            Vector2Int.left,
+            Vector2Int.right
+        };
+
+        foreach (var direction in directions)
+        {
+            Vector2Int targetPos = origin + direction;
+            if (tiles.ContainsKey(targetPos))
+            {
+                tiles[targetPos].Highlight(true);
+            }
+        }
+    }
+
+    private void ClearHighlights()
+    {
+        foreach (var tile in tiles.Values)
+        {
+            tile.Highlight(false);
         }
     }
 }
