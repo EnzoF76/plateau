@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
 
@@ -99,25 +100,37 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    public List<Vector2Int> GetReachableTiles(Vector2Int origin)
+    {
+        List<Vector2Int> reachableTiles = new List<Vector2Int>();
+
+        var directions = config.allowedDirections.Select(d => d.ToVector2Int());
+
+        foreach (var direction in directions)
+        {
+            Vector2Int position = origin + direction;
+
+            if (!tiles.ContainsKey(position))
+                continue;
+
+            bool tileOccupied = TurnManager.Instance.Players.Exists(p => p.gridPosition == position);
+
+            if (!tileOccupied)
+            {
+                reachableTiles.Add(position);
+            }
+        }
+
+        return reachableTiles;
+    }
+
     public void HighlightTilesForPlayer(Vector2Int origin)
     {
         ClearHighlights();
 
-        Vector2Int[] directions =
+        foreach (var position in GetReachableTiles(origin))
         {
-            Vector2Int.up,
-            Vector2Int.down,
-            Vector2Int.left,
-            Vector2Int.right
-        };
-
-        foreach (var direction in directions)
-        {
-            Vector2Int targetPos = origin + direction;
-            if (tiles.ContainsKey(targetPos))
-            {
-                tiles[targetPos].Highlight(true);
-            }
+            tiles[position].Highlight(true);
         }
     }
 

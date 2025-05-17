@@ -23,6 +23,8 @@ public class TurnManager : MonoBehaviour
 
     public PlayerController CurrentPlayer => players[currentPlayerIndex];
 
+    public List<PlayerController> Players => players;
+
     public void EndTurn()
     {
         foreach (var player in players)
@@ -39,9 +41,10 @@ public class TurnManager : MonoBehaviour
     {
         PlayerController player = CurrentPlayer;
 
-        if (Vector2Int.Distance(player.gridPosition, targetPosition) <= 1.1f)
-        {
-            player.MoveTo(targetPosition, EndTurn);
-        }
+        // On vérifie si la tuile cible est atteignable/accessible
+        if (!GridManager.Instance.GetReachableTiles(player.gridPosition).Contains(targetPosition))
+            return;
+
+        player.MoveTo(targetPosition, EndTurn);
     }
 }
