@@ -8,6 +8,8 @@ public class TurnManager : MonoBehaviour
     public List<PlayerController> players;
     private int currentPlayerIndex = 0;
 
+    public PlayerHUD playerHUD;
+
     private void Awake()
     {
         Instance = this;
@@ -19,6 +21,8 @@ public class TurnManager : MonoBehaviour
         currentPlayerIndex = 0;
 
         CurrentPlayer.SetActiveHighlight(true);
+        CurrentPlayer.StartTurn();
+        playerHUD.UpdateHUD(CurrentPlayer);
     }
 
     public PlayerController CurrentPlayer => players[currentPlayerIndex];
@@ -35,15 +39,22 @@ public class TurnManager : MonoBehaviour
         CurrentPlayer.SetActiveHighlight(true);
 
         GridManager.Instance.HighlightTilesForPlayer(CurrentPlayer.gridPosition);
+
+        CurrentPlayer.StartTurn();
+        playerHUD.UpdateHUD(CurrentPlayer);
     }
 
     public void TryMoveTo(Vector2Int targetPosition) 
     {
         PlayerController player = CurrentPlayer;
 
+        var reachableTiles = GridManager.Instance.GetReachableTiles(player.gridPosition);
+
         // On vérifie si la tuile cible est atteignable/accessible
-        if (!GridManager.Instance.GetReachableTiles(player.gridPosition).Contains(targetPosition))
+        if (!reachableTiles.Contains(targetPosition))
+        {
             return;
+        }
 
         player.MoveTo(targetPosition, EndTurn);
     }

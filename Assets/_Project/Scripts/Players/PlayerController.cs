@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,8 +17,36 @@ public class PlayerController : MonoBehaviour
     private Renderer renderer;
     private Material instanceMaterial;
 
+    public string playerName;
     public Color playerColor;
     public Color activeGlowColor = Color.white;
+
+    // Liste de cartes du joueur
+    public List<CardInstance> hand = new List<CardInstance>();
+
+    public int currentMana, maxMana, turnCount = 0;
+
+    public void StartTurn()
+    {
+        turnCount++;
+        maxMana = turnCount > 5 ? 5 : turnCount;
+        currentMana += 1;
+
+        DrawCard();
+    }
+
+    public void DrawCard()
+    {
+        CardData randomCard = CardDatabase.Instance.GetRandomCard();
+        hand.Add(new CardInstance(randomCard));
+
+        Debug.Log(playerName + " hand :");
+        foreach (var card in hand)
+        {
+            Debug.Log(card.data.name);
+        }
+        Debug.Log(playerName + " turn " + turnCount + " : " + currentMana + "/" + maxMana);
+    }
 
     public void MoveTo(Vector2Int newPosition, System.Action onMoveComplete = null)
     {
@@ -78,6 +107,7 @@ public class PlayerController : MonoBehaviour
         renderer = GetComponent<Renderer>();
 
         nameText.text = name;
+        playerName = name;
     }
 
     public void SetActiveHighlight(bool active) 

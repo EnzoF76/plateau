@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6261020571531250928}
   - component: {fileID: 7662843199624156605}
   - component: {fileID: 3016363926308696517}
-  - component: {fileID: -2132999802539854993}
+  - component: {fileID: 2384229776951047865}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Untagged
@@ -109,7 +109,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-2132999802539854993
+--- !u!114 &2384229776951047865
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,3 +122,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hoverColor: {r: 0.92156863, g: 0.8, b: 1, a: 1}
+  highlightColor: {r: 0.7372549, g: 0.8862745, b: 0.7254902, a: 1}

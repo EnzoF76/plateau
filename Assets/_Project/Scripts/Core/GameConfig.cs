@@ -12,4 +12,19 @@ public class GameConfig : ScriptableObject
 
     [Header("Déplacements autorisés")]
     public SerializableVector2Int[] allowedDirections;
+
+    private void OnEnable()
+    {
+        // Auto-remplissage si vide
+        if (allowedDirections == null || allowedDirections.Length == 0)
+        {
+            allowedDirections = new SerializableVector2Int[]
+            {
+                new SerializableVector2Int { x = 0, y = 1 },  // haut
+                new SerializableVector2Int { x = 0, y = -1 }, // bas
+                new SerializableVector2Int { x = -1, y = 0 }, // gauche
+                new SerializableVector2Int { x = 1, y = 0 }   // droite
+            };
+        }
+    }
 }

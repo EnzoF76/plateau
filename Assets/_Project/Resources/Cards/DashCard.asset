@@ -9,20 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 521075042bd90944292d72ae6df8ab94, type: 3}
-  m_Name: GameConfig
+  m_Script: {fileID: 11500000, guid: b7e5a9098da570940b8f261279156030, type: 3}
+  m_Name: DashCard
   m_EditorClassIdentifier: 
-  gridWidth: 9
-  gridHeight: 9
-  tileSpacing: 1.1
-  tileHeight: 0.25
-  playerHeight: 1
-  allowedDirections:
-  - x: 0
-    y: 1
-  - x: 0
-    y: -1
-  - x: -1
-    y: 0
-  - x: 1
-    y: 0
+  name: Dash
+  type: 1
+  icon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  cost: 1
+  description: "Permet de se d\xE9placer sur 2 cases dans une direction"
