@@ -9,4 +9,7 @@ public class GameConfig : ScriptableObject
 
     public float tileHeight = 0.25f;
     public float playerHeight = 1.0f;
+
+    [Header("Déplacements autorisés")]
+    public SerializableVector2Int[] allowedDirections;
 }

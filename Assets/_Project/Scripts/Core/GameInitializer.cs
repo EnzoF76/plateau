@@ -12,10 +12,10 @@ public class GameInitializer : MonoBehaviour
 
     private Vector2Int[] spawnPositions = new Vector2Int[]
     {
-        new Vector2Int(0, 0),
-        new Vector2Int(8, 0),
-        new Vector2Int(0, 8),
-        new Vector2Int(8, 8)
+        new Vector2Int(1, 0),
+        new Vector2Int(8, 1),
+        new Vector2Int(0, 7),
+        new Vector2Int(7, 8)
     };
 
     private Color[] playerColors = new Color[]
@@ -24,6 +24,14 @@ public class GameInitializer : MonoBehaviour
         Color.green,
         Color.blue,
         Color.yellow
+    };
+
+    private string[] names = new string[]
+    {
+        "Yord",
+        "Deytchi",
+        "Neymios",
+        "Gyude"
     };
 
     private void Start()
@@ -38,10 +46,16 @@ public class GameInitializer : MonoBehaviour
             playerController.config = config;
             playerController.MoveTo(spawnPositions[i]);
             playerController.SetColor(playerColors[i]);
-            playerObject.name = $"Player {i + 1}";
+            playerController.SetName(names[i]);
+            playerObject.name = names[i];
             players.Add(playerController);
         }
 
         turnManager.Initialize(players);
+
+        GridManager.Instance.OnGridGenerated += () =>
+        {
+            GridManager.Instance.HighlightTilesForPlayer(turnManager.CurrentPlayer.gridPosition);
+        };
     }
 }

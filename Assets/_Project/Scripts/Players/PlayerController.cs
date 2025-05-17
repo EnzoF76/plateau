@@ -19,14 +19,6 @@ public class PlayerController : MonoBehaviour
     public Color playerColor;
     public Color activeGlowColor = Color.white;
 
-    void Start()
-    {
-        if (nameText != null)
-        {
-            nameText.text = $"Joueur {playerIndex + 1}";
-        }
-    }
-
     public void MoveTo(Vector2Int newPosition, System.Action onMoveComplete = null)
     {
         if (isMoving) return;
@@ -79,6 +71,13 @@ public class PlayerController : MonoBehaviour
         playerColor = color;
 
         renderer.material = instanceMaterial;
+    }
+
+    public void SetName(string name)
+    {
+        renderer = GetComponent<Renderer>();
+
+        nameText.text = name;
     }
 
     public void SetActiveHighlight(bool active) 
